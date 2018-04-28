@@ -4,7 +4,7 @@
 
 (defrecord FileStore [file]
   Store
-  (write-state [store state]
+  (write-state! [store state]
     (spit (:file store) (str state)))
   (load-state [store]
     (let [v (slurp (:file store))]
