@@ -9,5 +9,4 @@
           Optional parameter (options) can be
            - :load-state? Wheter load state from store or use given value x
            - :store-key Key to give for store and to use with atom"}
-  ([store x & options] (apply create-watom store x options))
-  ([store x] (create-watom store x :load-state? true)))
+  [store x & options] (apply create-watom store x options))
