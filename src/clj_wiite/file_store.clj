@@ -8,6 +8,7 @@
 
 (defrecord FileStore [file]
   ^{:doc "Store for keeping state in a given file.
+          File doesn't have to exist. If it does, it will be overwritten.
           If file does not exist, load-state will return nil."}
   Store
   (write-state! [store state]
@@ -18,4 +19,6 @@
         (edn/read-string v)))))
 
 (defn file-store [file]
+  ^{:doc "Store for keeping state in a given file.
+          File doesn't have to exist. If it does, it will be overwritten."}
   (FileStore. file))
