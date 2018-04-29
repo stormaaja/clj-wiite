@@ -1,5 +1,5 @@
 (ns clj-wiite.store)
 
 (defprotocol Store
-  (write-state! [store state])
-  (load-state [store ]))
+  (write-state! "Write state to store" [store state])
+  (load-state "Load state from store" [store ]))
