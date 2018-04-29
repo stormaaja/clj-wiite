@@ -7,6 +7,8 @@
   (.exists (io/as-file path)))
 
 (defrecord FileStore [file]
+  ^{:doc "Store for keeping state in a given file.
+          If file does not exist, load-state will return nil."}
   Store
   (write-state! [store state]
     (spit (:file store) (str state)))
