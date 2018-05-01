@@ -10,24 +10,26 @@
   (io/file (System/getProperty "java.io.tmpdir")
            (str (java.util.UUID/randomUUID))))
 
+(defmacro with-store [file store & body]
+  `(let [~file (random-file)
+         ~store (file-store (.getAbsolutePath ~file))]
+     (when (.exists ~file) (io/delete-file ~file))
+     (do ~@body)
+     (when (.exists ~file) (io/delete-file ~file))))
+
 (deftest file-store-write-state
   (testing "Writing store state"
-    (let [file (random-file)
-          store (file-store (.getAbsolutePath file))]
+    (with-store file store
       (is (not (.exists file)))
       (write-state! store example-data)
-      (is (.exists file))
-      (io/delete-file file))))
+      (is (.exists file)))))
 
 (deftest file-store-load-state
   (testing "Loading store state"
-    (let [file (random-file)
-          store (file-store (.getAbsolutePath file))]
-      (io/delete-file file true)
+    (with-store file store
       (is (nil? (load-state store)))
       (write-state! store example-data)
       (is (= (load-state store) example-data))
       (let [changed-state (assoc example-data :some "String II" :num 3)]
         (write-state! store changed-state)
-        (is (= (load-state store) changed-state)))
-      (io/delete-file file))))
+        (is (= (load-state store) changed-state))))))
