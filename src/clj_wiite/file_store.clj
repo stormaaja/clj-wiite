@@ -1,7 +1,12 @@
 (ns clj-wiite.file-store
-  (:require [clojure.edn :as edn]
+  (:require [clojure.spec.alpha :as s]
+            [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clj-wiite.store :refer [Store]]))
+
+(s/fdef file-exists?
+        :args (s/cat :path string?)
+        :ret boolean?)
 
 (defn- file-exists? [path]
   (.exists (io/as-file path)))
@@ -17,6 +22,10 @@
     (when (file-exists? (:file store))
       (let [v (slurp (:file store))]
         (edn/read-string v)))))
+
+(s/fdef file-store
+        :args (s/cat :file string?)
+        :ret #(instance? FileStore %))
 
 (defn file-store [file]
   ^{:doc "Store for keeping state in a given file.
