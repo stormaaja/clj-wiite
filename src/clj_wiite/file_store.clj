@@ -2,7 +2,7 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.edn :as edn]
             [clojure.java.io :as io]
-            [clj-wiite.store :refer [Store]]))
+            [clj-wiite.store :refer :all]))
 
 (s/fdef file-exists?
         :args (s/cat :path string?)
