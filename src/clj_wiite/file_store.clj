@@ -14,7 +14,8 @@
 (defrecord FileStore [file]
   ^{:doc "Store for keeping state in a given file.
           File doesn't have to exist. If it does, it will be overwritten.
-          If file does not exist, load-state will return nil."}
+          If file does not exist, load-state will return nil."
+    :added "0.1.0"}
   Store
   (write-state! [store state]
     (spit (:file store) (str state)))
@@ -29,5 +30,6 @@
 
 (defn file-store [file]
   ^{:doc "Store for keeping state in a given file.
-          File doesn't have to exist. If it does, it will be overwritten."}
+          File doesn't have to exist. If it does, it will be overwritten."
+    :added "0.1.0"}
   (FileStore. file))
