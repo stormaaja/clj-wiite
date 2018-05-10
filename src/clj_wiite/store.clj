@@ -5,4 +5,6 @@
   (load-state [store] "Load state from store"))
 
 (defn store? [x]
+  ^{:doc "Function for checking if given instance implements Store protocol"
+    :added "0.1.0"}
   (satisfies? Store x))
