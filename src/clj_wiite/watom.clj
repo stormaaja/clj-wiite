@@ -1,19 +1,24 @@
 (ns clj-wiite.watom
-  (:require [clj-wiite.store :refer :all])
+  (:require [clj-wiite.store :refer :all]
+            [clojure.spec.alpha :as s])
   (:import [clj-wiite.store.Store]))
 
 (def watom-key :watom)
 
-(defn- create-watcher [store]
-  (fn [k a old-state new-state]
-    (write-state! store new-state)))
+(s/def ::store store?)
 
-(defn create-watom [store x & {:keys [load-state? store-key]}]
-  (let [watch-key (or store-key watom-key)
-        load? (if (some? load-state?) load-state? true)
-        state (when load? (load-state store))
-        a (atom (or state x))
-        watcher (create-watcher store)]
-    (add-watch a watch-key watcher)
-    (watcher watch-key a x x)
+(s/fdef create-watom
+        :args (s/cat :store ::store)
+        :ret #(instance? clojure.lang.Atom %))
+
+(defn create-watom [store]
+  ^{:doc "Create Clojure Atom with watcher for writing state to store.
+          Initial state will be loaded from store as well."
+    :added "0.1.0"
+    :pre [(s/valid? ::store store)]}
+  (let [a (atom (load-state store))]
+    (add-watch
+      a watom-key
+      (fn [k a old-state new-state]
+        (write-state! store new-state)))
     a))
