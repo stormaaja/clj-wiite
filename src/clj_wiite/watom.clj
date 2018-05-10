@@ -14,8 +14,7 @@
 (defn create-watom [store]
   ^{:doc "Create Clojure Atom with watcher for writing state to store.
           Initial state will be loaded from store as well."
-    :added "0.1.0"
-    :pre [(s/valid? ::store store)]}
+    :added "0.1.0"}
   (let [a (atom (load-state store))]
     (add-watch
       a watom-key
