@@ -3,4 +3,8 @@
   :url "https://github.com/stormaaja/clj-wiite"
   :license {:name "MIT"
             :url "https://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.9.0"]])
+  :dependencies [[org.clojure/clojure "1.9.0"]
+                 [org.clojure/java.jdbc "0.7.6"]
+                 [org.postgresql/postgresql "42.2.2"]
+                 [org.clojure/data.json "0.2.6"]]
+  :profiles {:dev {:dependencies [[org.clojure/test.check "0.9.0"]]}})
