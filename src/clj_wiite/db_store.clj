@@ -8,13 +8,17 @@
 
 (def table :wiite_states)
 
+(def table-not-exists-state "42P01")
+
 (defn table-exists? [conn]
   (some?
     (try
       (jdbc/query
         conn
         [(format "SELECT state FROM %s ORDER BY id DESC LIMIT 0" (name table))])
-      (catch PSQLException e))))
+      (catch PSQLException e
+        (when-not (= (.getSQLState e) table-not-exists-state)
+          (throw e))))))
 
 (defn create-table! [conn]
   (jdbc/db-do-commands
