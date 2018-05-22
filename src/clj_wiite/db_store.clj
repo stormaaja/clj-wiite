@@ -6,8 +6,6 @@
             [clojure.java.jdbc :as jdbc])
   (:import [org.postgresql.util PSQLException]))
 
-(def table :wiite_states)
-
 (def table-not-exists-state "42P01")
 
 (defn table-exists? [conn]
@@ -15,7 +13,7 @@
     (try
       (jdbc/query
         conn
-        [(format "SELECT state FROM %s ORDER BY id DESC LIMIT 0" (name table))])
+        ["SELECT state FROM wiite_states ORDER BY id DESC LIMIT 0"])
       (catch PSQLException e
         (when-not (= (.getSQLState e) table-not-exists-state)
           (throw e))))))
@@ -24,7 +22,7 @@
   (jdbc/db-do-commands
     conn
     (jdbc/create-table-ddl
-      table
+      :wiite_states
       [[:id "serial"]
        [:created_at "timestamp with time zone" "default now()"]
        [:state "json"]])))
@@ -33,14 +31,14 @@
   (first
     (jdbc/query
      conn
-     [(format "SELECT state FROM %s ORDER BY id DESC LIMIT 1" (name table))]
-     {:row-fn :state})))
+     ["SELECT state FROM wiite_states ORDER BY id DESC LIMIT 1"]
+     {:row-fn #(get-in % [:state :value])})))
 
 (defn insert-latest-state! [conn state]
   (jdbc/insert!
     conn
-    table
-    {:state state}))
+    :wiite_states
+    {:state {:value state}}))
 
 
 (defrecord DBStore [conn]
