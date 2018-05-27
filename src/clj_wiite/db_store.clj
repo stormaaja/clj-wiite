@@ -6,9 +6,12 @@
             [clojure.java.jdbc :as jdbc])
   (:import [org.postgresql.util PSQLException]))
 
-(def table-not-exists-state "42P01")
+(def ^:private table-not-exists-state "42P01")
 
-(defn table-exists? [conn]
+(s/def- ::conn (s/keys :req [::dbtype ::dbname ::host]
+                      :opt [::user ::password ::ssl ::sslfactory]))
+
+(defn- table-exists? [conn]
   (some?
     (try
       (jdbc/query
@@ -18,7 +21,7 @@
         (when-not (= (.getSQLState e) table-not-exists-state)
           (throw e))))))
 
-(defn create-table! [conn]
+(defn- create-table! [conn]
   (jdbc/db-do-commands
     conn
     (jdbc/create-table-ddl
@@ -27,14 +30,14 @@
        [:created_at "timestamp with time zone" "default now()"]
        [:state "json"]])))
 
-(defn select-latest-state [conn]
+(defn- select-latest-state [conn]
   (first
     (jdbc/query
      conn
      ["SELECT state FROM wiite_states ORDER BY id DESC LIMIT 1"]
      {:row-fn #(get-in % [:state :value])})))
 
-(defn insert-latest-state! [conn state]
+(defn- insert-latest-state! [conn state]
   (jdbc/insert!
     conn
     :wiite_states
@@ -50,9 +53,6 @@
     (insert-latest-state! (:conn store) state))
   (load-state [store]
     (select-latest-state (:conn store))))
-
-(s/def ::conn (s/keys :req [::dbtype ::dbname ::host]
-                        :opt [::user ::password ::ssl ::sslfactory]))
 
 (s/fdef db-store
         :args (s/cat :params ::params)
