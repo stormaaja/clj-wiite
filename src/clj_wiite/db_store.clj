@@ -8,7 +8,7 @@
 
 (def ^:private table-not-exists-state "42P01")
 
-(s/def- ::conn (s/keys :req [::dbtype ::dbname ::host]
+(s/def ::conn (s/keys :req [::dbtype ::dbname ::host]
                       :opt [::user ::password ::ssl ::sslfactory]))
 
 (defn- table-exists? [conn]
