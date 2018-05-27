@@ -65,5 +65,5 @@
           See: https://github.com/clojure/java.jdbc"
     :added "0.1.0"
     :pre [(s/valid? ::conn conn)]}
-  (when-not (table-exists?) (create-table! conn))
+  (when-not (table-exists? conn) (create-table! conn))
   (DBStore. conn))
