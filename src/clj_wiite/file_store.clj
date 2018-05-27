@@ -11,11 +11,6 @@
 (defn- file-exists? [path]
   (.exists (io/as-file path)))
 
-(defn file-store? [x]
-  ^{:doc "Function for checking if given instance is FileStore"
-    :added "0.1.0"}
-  (instance? FileStore x))
-
 (defrecord FileStore [file]
   ^{:doc "Store for keeping state in a given file.
           File doesn't have to exist. If it does, it will be overwritten.
@@ -28,6 +23,11 @@
     (when (file-exists? (:file store))
       (let [v (slurp (:file store))]
         (edn/read-string v)))))
+
+(defn file-store? [x]
+  ^{:doc "Function for checking if given instance is FileStore"
+    :added "0.1.0"}
+  (instance? FileStore x))
 
 (s/fdef file-store
         :args (s/cat :file string?)
