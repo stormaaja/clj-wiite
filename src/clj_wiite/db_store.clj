@@ -1,7 +1,6 @@
 (ns clj-wiite.db-store
   (:use clj-wiite.postgresql)
   (:require [clojure.spec.alpha :as s]
-            [clojure.edn :as edn]
             [clj-wiite.store :refer :all]
             [clojure.java.jdbc :as jdbc])
   (:import [org.postgresql.util PSQLException]))
