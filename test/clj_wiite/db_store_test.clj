@@ -32,3 +32,10 @@
       (let [changed-state (assoc example-state :some "String II" :num 3)]
         (write-state! store changed-state)
         (is (= (load-state store) changed-state))))))
+
+(deftest db-store-recreate-store
+  (testing "Recreating DB store"
+    (with-store store
+      (write-state! store example-state)
+      (let [second-store (db-store (:db config))]
+        (is (= (load-state second-store) example-state))))))
