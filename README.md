@@ -1,6 +1,11 @@
 # clj-wiite
 
-Clojure library for using database backed Atom
+Clojure library for using database backed Clojure
+[Atom](https://clojure.org/reference/atoms).
+
+This library is part of my thesis work. So it is very very experimental and in
+early alpha stage. So do not use it in any production environments. And if you
+use it anywhere use it at your own risk.
 
 ## Usage
 
