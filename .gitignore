@@ -11,3 +11,5 @@ pom.xml.asc
 .hg/
 /lib/
 scripts
+/config/*
+!/config/example.edn
