@@ -1,0 +1,5 @@
+{:db {:dbtype "postgresql"
+      :dbname "wiite"
+      :host "localhost"
+      :user "wiiteuser"
+      :password "wiitepassword"}}
