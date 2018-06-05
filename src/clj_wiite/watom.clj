@@ -11,10 +11,11 @@
         :args (s/cat :store ::store)
         :ret #(instance? clojure.lang.Atom %))
 
-(defn create-watom [store]
+(defn
   ^{:doc "Create Clojure Atom with watcher for writing state to store.
           Initial state will be loaded from store as well."
     :added "0.1.0"}
+  create-watom [store]
   (let [a (atom (load-state store))]
     (add-watch
       a watom-key

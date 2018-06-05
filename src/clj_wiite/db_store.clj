@@ -43,10 +43,11 @@
     {:state {:value state}}))
 
 
-(defrecord DBStore [conn]
-  ^{:doc "Store for keeping state in database.
+(defrecord
+    ^{:doc "Store for keeping state in database.
           Currently only PostgreSQL-database is fully supported"
     :added "0.1.0"}
+    DBStore [conn]
   Store
   (write-state! [store state]
     (insert-latest-state! (:conn store) state))
@@ -54,15 +55,16 @@
     (select-latest-state (:conn store))))
 
 (s/fdef db-store
-        :args (s/cat :params ::params)
+        :args (s/cat :conn ::conn)
         :ret #(instance? DBStore %))
 
-(defn db-store [conn]
+(defn
   ^{:doc "Store for keeping state in database.
           Tables needed are being created if they don't exist.
           Currently only PostgreSQL-database is fully supported
           See: https://github.com/clojure/java.jdbc"
-    :added "0.1.0"
-    :pre [(s/valid? ::conn conn)]}
+    :added "0.1.0"}
+  db-store [conn]
+  {:pre [(s/valid? ::conn conn)]}
   (when-not (table-exists? conn) (create-table! conn))
   (DBStore. conn))
