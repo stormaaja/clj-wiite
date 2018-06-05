@@ -7,4 +7,5 @@
                  [org.clojure/java.jdbc "0.7.6"]
                  [org.postgresql/postgresql "42.2.2"]
                  [org.clojure/data.json "0.2.6"]]
+  :aliases {"checkall" ["do" ["check"] ["kibit"] ["eastwood"] ["bikeshed"]]}
   :profiles {:dev {:dependencies [[org.clojure/test.check "0.9.0"]]}})
