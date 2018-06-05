@@ -2,4 +2,5 @@
   (:require [clojure.edn :as edn]))
 
 (defonce config
-  (edn/read-string (slurp (format "config/%s.edn" (System/getenv "ENVIRONMENT")))))
+  (edn/read-string
+    (slurp (format "config/%s.edn" (System/getenv "ENVIRONMENT")))))
