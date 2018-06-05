@@ -8,4 +8,7 @@
                  [org.postgresql/postgresql "42.2.2"]
                  [org.clojure/data.json "0.2.6"]]
   :aliases {"checkall" ["do" ["check"] ["kibit"] ["eastwood"] ["bikeshed"]]}
-  :profiles {:dev {:dependencies [[org.clojure/test.check "0.9.0"]]}})
+  :profiles {:dev {:dependencies [[org.clojure/test.check "0.9.0"]
+                                  [lein-kibit "0.1.6"]
+                                  [jonase/eastwood "0.2.6"]
+                                  [lein-bikeshed "0.5.1"]]}})
