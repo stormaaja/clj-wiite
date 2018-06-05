@@ -1,9 +1,11 @@
 (ns clj-wiite.db-store
-  (:use clj-wiite.postgresql)
   (:require [clojure.spec.alpha :as s]
+            [clj-wiite.postgresql :refer [extend-protocols]]
             [clj-wiite.store :refer :all]
             [clojure.java.jdbc :as jdbc])
   (:import [org.postgresql.util PSQLException]))
+
+(extend-protocols)
 
 (def ^:private table-not-exists-state "42P01")
 

@@ -1,10 +1,12 @@
 (ns clj-wiite.db-store-test
-  (:use clj-wiite.postgresql)
-  (:require [clojure.test :refer :all]
+  (:require [clj-wiite.postgresql :refer [extend-protocols]]
+            [clojure.test :refer :all]
             [clj-wiite.db-store :refer :all]
             [clj-wiite.store :refer :all]
             [clj-wiite.config :refer [config]]
             [clojure.java.jdbc :as jdbc]))
+
+(extend-protocols)
 
 (defn drop-table [conn]
   (jdbc/db-do-commands
